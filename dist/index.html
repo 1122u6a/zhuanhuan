@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="在浏览器中把节点链接转换成客户端配置文件。">
+<title>节点工坊 · 节点配置转换</title>
+<link rel="stylesheet" href="./style.css">
+<script defer src="./converter.js"></script>
+<script defer src="./app.js"></script>
+</head>
+<body>
+<aside class="rail">
+  <div class="brand"><span class="mark" data-icon="layers"></span><span>节点工坊<small>NODE STUDIO</small></span></div>
+  <div class="rail-caption">工作台</div>
+  <nav aria-label="工作台"><a class="nav-link current" href="#workspace"><span data-icon="switch"></span>节点转换</a><a class="nav-link" href="#protocols"><span data-icon="grid"></span>支持的协议</a></nav>
+  <div class="rail-footer"><span class="indicator"></span><span>浏览器本地运行</span></div>
+</aside>
+<main id="workspace">
+  <div class="topline"><span>工作台 <span class="crumb">/</span> <strong>节点转换</strong></span><span class="private"><span data-icon="shield"></span><span>节点信息仅在浏览器本地处理，不上传、不留存</span></span></div>
+  <div class="content">
+    <header class="hero"><div class="hero-copy"><h1>节点配置转换</h1><p>导入现有节点，转换成所选客户端可读取的配置文件。</p></div><div class="hero-art" aria-hidden="true"><i></i><i></i><i></i><span class="art-line"></span></div></header>
+    <div class="workspace">
+      <section class="card input-card" aria-labelledby="inputTitle">
+        <div class="card-heading"><span class="tile" data-icon="input"></span><div><h2 id="inputTitle">导入节点</h2><p>粘贴链接，或手动填写节点参数。</p></div></div>
+        <div class="tabs" aria-label="输入方式"><button id="linkTab" type="button" aria-pressed="true"><span data-icon="link"></span>节点链接</button><button id="manualTab" type="button" aria-pressed="false"><span data-icon="edit"></span>手动填写</button></div>
+        <form id="form" novalidate autocomplete="off">
+          <div id="linkPanel">
+            <div class="label-row"><label for="links">节点链接</label><button class="text-button" id="example" type="button">填入示例 <span data-icon="arrow"></span></button></div>
+            <textarea id="links" maxlength="160000" spellcheck="false" placeholder="vless://…&#10;hysteria2://…"></textarea>
+            <p class="hint">可粘贴多条链接，每行一条。</p>
+          </div>
+          <div id="manualPanel" hidden>
+            <div class="field"><label for="protocol">节点协议</label><select id="protocol" name="protocol"><option value="tls">VLESS-TLS</option><option value="hy2">Hysteria2</option><option value="reality">VLESS-REALITY</option><option value="xr">VLESS-REALITY-XHTTP</option></select></div>
+            <div id="manualFields" class="fields"></div>
+          </div>
+          <div class="target field"><label for="format">目标客户端</label><select id="format"><option value="mihomo">Mihomo / Clash Meta · YAML</option><option value="xray">Xray-core · JSON</option><option value="hysteria">Hysteria 2 官方客户端 · YAML</option><option value="uri">通用节点链接 · TXT</option></select></div>
+          <p id="compatibility" class="hint target-hint">适用于使用 Mihomo 内核的客户端。</p>
+          <div id="error" class="error" role="alert" hidden></div>
+          <div class="actions"><button class="primary" type="submit"><span data-icon="switch"></span>生成配置</button><button class="secondary" id="clear" type="button">清空</button></div>
+        </form>
+      </section>
+      <section class="card output-card" aria-labelledby="outputTitle">
+        <div class="card-heading"><span class="tile" data-icon="file"></span><div><h2 id="outputTitle">导出配置</h2><p>预览配置，再下载到本地导入客户端。</p></div></div>
+        <div class="preview">
+          <div class="preview-head"><span><span data-icon="code"></span>配置预览</span><span class="extension" id="extension">YAML</span></div>
+          <div id="empty" class="empty"><span class="empty-icon" data-icon="file"></span><strong>等待生成配置</strong><span>生成后可在这里预览和下载。</span></div>
+          <pre id="preview" tabindex="0" hidden></pre>
+        </div>
+        <p id="result" class="hint result" role="status"></p>
+        <div class="actions output-actions"><button id="download" class="primary" disabled><span data-icon="download"></span>下载配置</button><button id="copy" class="secondary" disabled><span data-icon="copy"></span>复制</button></div>
+      </section>
+    </div>
+    <section class="protocols" id="protocols" aria-labelledby="protocolTitle">
+      <div class="section-heading"><h2 id="protocolTitle">支持的协议</h2><span>选择协议，打开手动填写</span></div>
+      <div class="protocol-grid">
+        <button class="protocol-card" data-protocol="tls"><span class="protocol-icon green" data-icon="lock"></span><span><strong>VLESS-TLS</strong><small>RAW / WebSocket / gRPC / XHTTP</small></span><span class="protocol-arrow" data-icon="arrow"></span></button>
+        <button class="protocol-card" data-protocol="hy2"><span class="protocol-icon blue" data-icon="bolt"></span><span><strong>Hysteria2</strong><small>QUIC · TLS</small></span><span class="protocol-arrow" data-icon="arrow"></span></button>
+        <button class="protocol-card" data-protocol="reality"><span class="protocol-icon purple" data-icon="shield"></span><span><strong>VLESS-REALITY</strong><small>RAW / gRPC · REALITY</small></span><span class="protocol-arrow" data-icon="arrow"></span></button>
+        <button class="protocol-card" data-protocol="xr"><span class="protocol-icon orange" data-icon="code"></span><span><strong>VLESS-REALITY-XHTTP</strong><small>XHTTP · REALITY</small></span><span class="protocol-arrow" data-icon="arrow"></span></button>
+      </div>
+    </section>
+  </div>
+</main>
+</body>
+</html>
